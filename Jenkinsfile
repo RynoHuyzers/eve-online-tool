@@ -1,0 +1,71 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_DEFAULT_REGION="${params.AWSRegion}"
+    }
+
+    parameters {
+        string(name: 'ProjectName', defaultValue: 'Project Template')
+
+        string(name: 'AWSRegion', defaultValue: 'eu-west-1', description: 'AWS Region')
+
+        //Dev
+        string(name: 'DevAWSAccountNumber', defaultValue: '026000831515', description: 'Symbiotics R&D Account - Development')
+        string(name: 'DevAWSCredentialsId', defaultValue: 'LME-CMIS-Dev', description: 'AWS Credentials added to Jenkins')
+    }
+
+    options {
+        timeout(time: 30, unit: 'MINUTES')
+        buildDiscarder(logRotator(numToKeepStr: '4', artifactNumToKeepStr: '1'))
+    }
+
+    stages {
+        stage('Env Setup') {
+            steps {
+                script {
+                    switch(env.Branch_Name) {
+                        case 'development':
+                            env.DEPLOYMENT_ENVIRONMENT = "dev";
+                            env.AWSAccountNumber="${params.DevAWSAccountNumber}"
+                            env.AWSCredentialId = "${params.DevAWSCredentialsId}";
+                    }
+                    env.EnvLowerCase = "${env.DEPLOYMENT_ENVIRONMENT.toLowerCase()}";
+
+                    env.AWS_DEFAULT_REGION = "${params.AWSRegion}";
+
+                    echo "versions";
+                        sh """
+                            ## Printout version numbers in build console
+                            node --version
+                            aws --version
+                            cdk --version
+                            printenv
+                        """
+                }
+                script{
+                    sh """
+                        echo "settting up dir"
+                        npm install
+
+                        echo "Clean and Setup Deploy Directories"
+                        npm run clean
+
+                    """
+
+                }
+            }
+        }
+        stage('Build: RestAPI Proxy lambda') {
+            steps {
+                nodejs(nodeJSInstallationName: 'NodeJS 14.17.5') {
+                    sh """
+                        ## cd into correct directory, and nest build lambda code
+                        npm run rest-api:build
+                    """
+                }
+            }
+        }        
+    }
+
+}
