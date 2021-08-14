@@ -11,8 +11,8 @@ pipeline {
         string(name: 'AWSRegion', defaultValue: 'eu-west-1', description: 'AWS Region')
 
         //Dev
-        string(name: 'DevAWSAccountNumber', defaultValue: '026000831515', description: 'Symbiotics R&D Account - Development')
-        string(name: 'DevAWSCredentialsId', defaultValue: 'LME-CMIS-Dev', description: 'AWS Credentials added to Jenkins')
+        string(name: 'DevAWSAccountNumber', defaultValue: '327579255305', description: '')
+        string(name: 'DevAWSCredentialsId', defaultValue: 'JenkinsUser', description: 'AWS Credentials added to Jenkins')
     }
 
     options {
