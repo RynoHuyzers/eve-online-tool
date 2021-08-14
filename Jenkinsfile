@@ -36,12 +36,7 @@ pipeline {
                 }
                 script{
                     sh """
-                        echo "settting up dir"
                         npm install
-
-                        echo "Clean and Setup Deploy Directories"
-                        npm run clean
-
                     """
 
                 }
