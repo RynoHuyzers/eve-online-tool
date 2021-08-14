@@ -33,15 +33,6 @@ pipeline {
                     env.EnvLowerCase = "${env.DEPLOYMENT_ENVIRONMENT.toLowerCase()}";
 
                     env.AWS_DEFAULT_REGION = "${params.AWSRegion}";
-
-                    echo "versions";
-                        sh """
-                            ## Printout version numbers in build console
-                            node --version
-                            aws --version
-                            cdk --version
-                            printenv
-                        """
                 }
                 script{
                     sh """
