@@ -6,7 +6,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'ProjectName', defaultValue: 'Project Template')
+        string(name: 'ProjectName', defaultValue: 'Project_Template')
 
         string(name: 'AWSRegion', defaultValue: 'eu-west-1', description: 'AWS Region')
 
