@@ -76,7 +76,7 @@ pipeline {
                     if (env.DEPLOYMENT_ENVIRONMENT != 'no_deploy') {
                         sh """
                             echo "Install CDK Dependencies"
-                            npm install
+                            npm install --only=dev
                         """
                     }
                 }
