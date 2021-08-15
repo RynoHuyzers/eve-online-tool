@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import express = require('express');
-import { ExpressAdapter } from '@nestjs/platform-express';
+import { eventContext } from 'aws-serverless-express/middleware';
+import {ExpressAdapter} from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from 'rest-api/src/util/HttpExceptionFilter';
 
-async function bootstrap() {
+export const bootstrapNest = async (expressServer) => {
   const corsOptions = {
     origin: '*',
     credentials: true,
@@ -26,16 +26,17 @@ async function bootstrap() {
       'clientid'
     ],
   };
-  
-  const expressServer = express();
-  const app = await NestFactory.create(
-      AppModule, 
-      new ExpressAdapter(expressServer),
-      {logger: process.env.LOG_LEVEL === 'DEBUG' ? ['log', 'error', 'warn', 'debug']: ['log', 'error', 'warn']}
+
+  const nestApp = await NestFactory.create(AppModule, new ExpressAdapter(expressServer));
+  nestApp.useGlobalFilters(new HttpExceptionFilter());
+  nestApp.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      validateCustomDecorators: true,
+    }),
   );
-  app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalPipes(new ValidationPipe());
-  app.enableCors(corsOptions);
-  await app.listen(3000);
+  nestApp.enableCors(corsOptions);
+  nestApp.use(eventContext());
+
+  return nestApp;
 }
-bootstrap();

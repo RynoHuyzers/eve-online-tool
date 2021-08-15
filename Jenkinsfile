@@ -84,25 +84,25 @@ pipeline {
         }
         stage('Deploy: RestAPI Proxy Lambda') {
             steps{
-                                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
-                                    credentialsId: "${env.AWSCredentialId}",
-                                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                    sh """
-                        echo "Deploy REST API Proxy Lambda"
-                        ## cd into cdk directory and compiles cdk
-                        npm run cdk:build:rest-api-proxy
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: "${env.AWSCredentialId}",
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                        sh """
+                            echo "Deploy REST API Proxy Lambda"
+                            ## cd into cdk directory and compiles cdk
+                            npm run cdk:build:rest-api-proxy
 
-                        cd cdk/src/rest-api/proxy-lambda
-                        npx rimraf cdk.out
+                            cd cdk/src/rest-api/proxy-lambda
+                            npx rimraf cdk.out
 
-                        ## Deploys zip file created during cdk compile
-                        npm run cdk:deploy:rest-api-proxy -- --require-approval=never \
-                          -c AWSRegion=${params.AWSRegion} \
-                          -c AWSAccountNumber=${env.AWSAccountNumber} \
-                          -c ProjectName=${env.ProjectName} \
-                          -c Env=${env.DEPLOYMENT_ENVIRONMENT} \
-                    """
+                            ## Deploys zip file created during cdk compile
+                            npm run cdk:deploy:rest-api-proxy -- --require-approval=never \
+                            -c AWSRegion=${params.AWSRegion} \
+                            -c AWSAccountNumber=${env.AWSAccountNumber} \
+                            -c ProjectName=${env.ProjectName} \
+                            -c Env=${env.DEPLOYMENT_ENVIRONMENT} \
+                        """
                 }
             }
         }  
