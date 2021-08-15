@@ -44,12 +44,12 @@ pipeline {
         }
         stage('Build: RestAPI Proxy lambda') {
             steps {
-                nodejs(nodeJSInstallationName: 'NodeJS 14.17.5') {
+                
                     sh """
                         ## cd into correct directory, and nest build lambda code
                         npm run rest-api:build
                     """
-                }
+                
             }
         }        
     }
