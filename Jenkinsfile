@@ -69,6 +69,19 @@ pipeline {
                 """
             }
         }   
+        stage('Prepare Deploy Dependencies') {
+            // Basically always perform this step 
+            steps {
+                script{
+                    if (env.DEPLOYMENT_ENVIRONMENT != 'no_deploy') {
+                        sh """
+                            echo "Install CDK Dependencies"
+                            npm install
+                        """
+                    }
+                }
+            }
+        }
         stage('Deploy: RestAPI Proxy Lambda') {
             steps{
                                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
