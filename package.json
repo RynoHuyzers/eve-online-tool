@@ -19,7 +19,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "rest-api:build": "cd rest-api && nest build"
+    "rest-api:build": "cd rest-api && nest build",
+    "cdk:build:rest-api-proxy": "cd cdk/src/rest-api/proxy-lambda && npx tsc",
+    "cdk:deploy:rest-api-proxy": "cd cdk/src/rest-api/proxy-lambda && npx rimraf cdk.out && cdk deploy"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -27,9 +29,18 @@
     "@nestjs/platform-express": "^8.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "express": "4.17.1"
   },
   "devDependencies": {
+    "aws-cdk": "1.110.1",
+    "@aws-cdk/core": "1.110.1",
+    "@aws-cdk/aws-lambda": "1.110.1",
+    "@aws-cdk/aws-iam": "1.110.1",
+    "@aws-cdk/aws-ssm": "1.110.1",
+    "aws-lambda": "1.0.6",
+    "aws-sdk": "2.721.0",
+    "aws-serverless-express": "3.3.8",
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
@@ -37,6 +48,7 @@
     "@types/jest": "^26.0.24",
     "@types/node": "^16.0.0",
     "@types/supertest": "^2.0.11",
+    "@types/aws-lambda": "8.10.59",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
     "eslint": "^7.30.0",
