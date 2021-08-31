@@ -48,6 +48,7 @@
     "@aws-cdk/aws-lambda": "1.110.1",
     "@aws-cdk/aws-iam": "1.110.1",
     "@aws-cdk/aws-ssm": "1.110.1",
+    "@aws-cdk/aws-apigateway": "1.110.1",
     "aws-lambda": "1.0.6",
     "aws-sdk": "2.721.0",
     "aws-serverless-express": "3.4.0",
