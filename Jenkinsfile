@@ -107,5 +107,14 @@ pipeline {
             }
         }  
     }
-
+    post {
+        always {
+            script{
+                if (env.DEPLOYMENT_ENVIRONMENT != 'no_deploy') {
+                    //archiveArtifacts artifacts: 'dist/**/*, deploy/**/*', allowEmptyArchive: true
+                    archiveArtifacts artifacts: '**/*'
+                }
+            }
+        }
+    }
 }
