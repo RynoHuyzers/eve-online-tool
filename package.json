@@ -31,7 +31,9 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "express": "4.17.1",
-    "aws-serverless-express": "3.4.0"
+    "aws-serverless-express": "3.4.0",
+    "class-transformer": "0.4.0",
+    "class-validator": "0.13.1"
   },
   "devDependencies": {
     "@nestjs/common": "^8.0.0",
