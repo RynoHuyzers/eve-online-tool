@@ -106,15 +106,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy Analytics Rest Api Gateway'){
-            when{
-                allOf {
-                    not { environment name: 'DEPLOYMENT_ENVIRONMENT', value: 'no_deploy'};
-                    anyOf {
-                        equals expected: "true", actual: params.ForceFullBuild;
-                    }
-                }
-            }
+        stage('Deploy: Rest Api Gateway'){
             steps{
                   withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                                     credentialsId: "${env.AWSCredentialId}",
