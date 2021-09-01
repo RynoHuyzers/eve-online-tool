@@ -136,7 +136,7 @@ pipeline {
                               -c AWSRegion=${params.AWSRegion} \
                               -c AWSAccountNumber=${env.AWSAccountNumber} \
                               -c ProjectName=${env.ProjectName} \
-                              -c Env=${env.DEPLOYMENT_ENVIRONMENT} 
+                              -c Env=${env.DEPLOYMENT_ENVIRONMENT}
 
                         """
                   }

@@ -13,8 +13,6 @@ paths:
   $include: ./paths.yaml
 
 components:
-  securitySchemes:
-    $include: ./security-scheme.yaml
 
   schemas:
     $include: ./schemas/api-messages.yaml
