@@ -22,6 +22,8 @@
     "rest-api:build": "cd rest-api && nest build",
     "cdk:build:rest-api-proxy": "cd cdk/src/rest-api/proxy-lambda && npx tsc",
     "cdk:deploy:rest-api-proxy": "cd cdk/src/rest-api/proxy-lambda && npx rimraf cdk.out && cdk deploy",
+    "cdk:build:rest-api-gw": "cd cdk/src/rest-api/api-gateway && npx tsc",
+    "cdk:deploy:rest-api-gw": "cd cdk/src/rest-api/api-gateway && npx rimraf cdk.out && cdk deploy",
     "project-template:rest-api:doc": "npm run project-template:rest-api:inc && npx redoc-cli bundle dist/rest-api/openapi/project-template-api.yaml --options.pathInMiddlePanel=true",
     "project-template:rest-api:inc": "npx yamlinc --output dist/rest-api/openapi/project-template-api.yaml cdk/src/rest-api/api-gateway/openapi/project-template-api.yaml"
   },

@@ -105,7 +105,46 @@ pipeline {
                         """
                 }
             }
-        }  
+        }
+        stage('Deploy Analytics Rest Api Gateway'){
+            when{
+                allOf {
+                    not { environment name: 'DEPLOYMENT_ENVIRONMENT', value: 'no_deploy'};
+                    anyOf {
+                        equals expected: "true", actual: params.ForceFullBuild;
+                    }
+                }
+            }
+            steps{
+                  withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                                    credentialsId: "${env.AWSCredentialId}",
+                                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                        sh """
+
+
+                            npm run project-template:rest-api:inc
+
+                            npx mkdirp deploy/rest-api
+                            npx envsub --protect \
+                              --env AWSRegion=${params.AWSRegion} \
+                              --env AWSAccountNumber=${env.AWSAccountNumberSource} \
+                              --env AWSCognitoAccountNumber=${env.AWSAccountNumberSource} \
+                              --env UserPoolId=${env.CognitoUserPoolId} \
+                              --env AppName=${params.AppName}-API \
+                              dist/rest-api/openapi/project-template-api.yaml deploy/rest-api/project-template-api.yaml
+
+                              # Deploy gateway
+                              npm run cdk:build:rest-api-gw
+
+                              cd cdk/src/rest-api/api-gateway
+                              npx rimraf cdk.out
+
+                              npm run cdk:deploy:rest-api-gw -- --require-approval=never
+                        """
+                  }
+            }
+        }
     }
     post {
         always {
