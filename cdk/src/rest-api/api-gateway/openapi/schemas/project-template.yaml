@@ -1,0 +1,31 @@
+RequestMetadata:
+  type: object
+  properties:
+    eventId:
+      type: string
+      description: UUID assigned by the publishing system to this event (optional)
+    eventTS:
+      type: string
+      description: timestamp
+    userId:
+      type: string
+      description: Id of user initiating the action that results in this event
+    userRole:
+      type: string
+      description: Role of user initiating the action that results in this event
+    system:
+      type: string
+      description: Id of initiating system
+    clientId:
+      type: string
+      description: Id of client having an action performed
+
+ResponseMetadata:
+  type: object
+  required: ['requestMetadata', 'responseId']
+  properties:
+    requestMetadata:
+      $ref: '#/components/schemas/RequestMetadata'
+    responseId:
+      type: string
+      description: Client Management response tracking id

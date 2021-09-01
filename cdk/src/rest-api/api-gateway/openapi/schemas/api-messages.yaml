@@ -1,0 +1,10 @@
+GetEmbeddedUrlResponse:
+  type: object
+  properties:
+    url:
+      type: string
+    metaData:
+      $ref: '#/components/schemas/ResponseMetadata'
+
+
+

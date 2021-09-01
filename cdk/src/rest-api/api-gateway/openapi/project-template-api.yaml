@@ -1,0 +1,22 @@
+openapi: 3.0.0
+
+info:
+  title: ${ProjectName} API
+  description: Analytics Api
+  version: '1.0'
+
+tags:
+  - name: Analytics Microservice
+    description: Quicksight related endpoints
+
+paths:
+  $include: ./paths.yaml
+
+components:
+  securitySchemes:
+    $include: ./security-scheme.yaml
+
+  schemas:
+    $include: ./schemas/api-messages.yaml
+    $include: ./schemas/project-template.yaml
+
