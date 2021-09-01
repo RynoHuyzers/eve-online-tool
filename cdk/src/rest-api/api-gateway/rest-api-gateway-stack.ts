@@ -28,7 +28,7 @@ export class RestAPIStack extends Stack {
     /** Adding this to redeploy **/
 
     /** ClientManagement API **/
-    const restSpecFile = `${__dirname}/../../../../deploy/rest-api/openapi/project-template-api.yaml`; /** yaml file was created here during 'Build RestAPI' stage in jenkins build */
+    const restSpecFile = `${__dirname}/../../../../deploy/rest-api/project-template-api.yaml`; /** yaml file was created here during 'Build RestAPI' stage in jenkins build */
     const api: SpecRestApi = new SpecRestApi(this, 'Project-Template-RestAPI', {
       restApiName: 'ProjectTemplateRestAPI',
       apiDefinition: ApiDefinition.fromAsset(restSpecFile),

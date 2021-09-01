@@ -120,7 +120,7 @@ pipeline {
                             npx mkdirp deploy/rest-api
                             npx envsub --protect \
                               --env AWSRegion=${params.AWSRegion} \
-                              --env AWSAccountNumber=${env.AWSAccountNumberSource} \
+                              --env AWSAccountNumber=${env.AWSAccountNumber} \
                               --env AWSCognitoAccountNumber=${env.AWSAccountNumberSource} \
                               --env UserPoolId=${env.CognitoUserPoolId} \
                               --env AppName=${params.AppName}-API \
@@ -132,7 +132,12 @@ pipeline {
                               cd cdk/src/rest-api/api-gateway
                               npx rimraf cdk.out
 
-                              npm run cdk:deploy:rest-api-gw -- --require-approval=never
+                              npm run cdk:deploy:rest-api-gw -- --require-approval=never \
+                              -c AWSRegion=${params.AWSRegion} \
+                              -c AWSAccountNumber=${env.AWSAccountNumber} \
+                              -c ProjectName=${env.ProjectName} \
+                              -c Env=${env.DEPLOYMENT_ENVIRONMENT} 
+
                         """
                   }
             }
